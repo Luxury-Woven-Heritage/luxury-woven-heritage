@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/product.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Fil d’Ariane">
+      <ol>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">All products</a></li>
+        <li aria-current="page">Product name</li>
+      </ol>
+    </nav>
+
+    <!-- Product card -->
+    <div class="product-card">
+      <div class="product-grid">
+        <!-- Left: media -->
+        <div class="media">
+          <div class="media-figure">
+            <img src="https://picsum.photos/id/1015/800/600" alt="Product">
+          </div>
+          <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <!-- Right: details -->
+        <div class="details">
+          <h1 class="title">Product name</h1>
+          <p class="subtle">Color</p>
+          <p class="subtle" id="price">Price</p>
+
+          <div class="field">
+            <label class="label">Color</label>
+            <select>
+              <option>Black</option>
+              <option>White</option>
+              <option>Sandy Brown</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label">Fabric</label>
+            <select>
+              <option>Cotton Silk</option>
+              <option>Cotton Pima</option>
+              <option>Cotton Sea Island</option>
+            </select>
+          </div>
+
+          <div class="chips">
+            <div class="chip">XS</div>
+            <div class="chip">S</div>
+            <div class="chip">M</div>
+            <div class="chip">L</div>
+            <div class="chip">XL</div>
+            <div class="chip">2XL</div>
+          </div>
+
+          <div class="split">
+            <button class="btn-secondary">Short sleeves</button>
+            <button class="btn-secondary">Long sleeves</button>
+          </div>
+
+          <button class="add-to-cart">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- <script src="./js/product.js"></script> -->
+</html>
