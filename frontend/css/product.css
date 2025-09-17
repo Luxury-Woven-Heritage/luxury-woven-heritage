@@ -66,11 +66,13 @@ body {
     background: #d1d5db;
     border-radius: 6px;
     overflow: hidden;
+    aspect-ratio: 1 / 1; /* DINGUERIE */
   }
   .media-figure img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    
     display: block;
   }
   .carousel-dots {
@@ -199,6 +201,21 @@ body {
   .add-to-cart:hover {
     background: black;
   }
+
+
+  .slides {
+  display: flex;              
+  width: 100%;
+  height: 100%;
+  transition: transform 300ms ease;
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 100%;              
+  height: 100%;
+}
+
 
   /* footer */
   footer {
