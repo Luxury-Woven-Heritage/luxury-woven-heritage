@@ -143,6 +143,7 @@ body {
     gap: 10px;
     margin-top: 8px;
   }
+
   .chip {
     min-width: 44px;
     height: 34px;
@@ -199,6 +200,66 @@ body {
     background: black;
   }
 
+  /* footer */
+  footer {
+    /* text-align: center; */
+    font-size: 0.9rem;
+    color: white;
+    background: #3f3f46;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo span{
+    border: solid white 2px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .footer-logo i{
+    /* background-color: white;     */
+    /* border: solid black 1px; */
+    width: 15px;
+  }
+  
+  .footer-logo div {
+    display: flex;
+    gap: 5px;
+    /* border: solid lime 1px; */
+    width: 100%;
+  }
+
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* border: solid lime 1px; */
+    width: 50%;
+    margin-right: 20%;
+  }
+
+  .footer-links a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+
   @media (max-width: 600px) {
     .add-to-cart {
       max-width: 100%;
@@ -206,6 +267,17 @@ body {
 
     .btn-secondary{
         width: 100%;
+    }
+
+    footer{
+          height: 40vh;
+    }
+
+    .footer-links {
+      width: 100%;
+      margin: 20px 20px;
+      justify-content: center;
+      gap: 20px;
     }
     
   }
