@@ -4,9 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/styles.css">
-</head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet"></head>
 <body>
-  <h1>Hello world</h1>
+  <div class="navbarContainer--hidden" id="menuContainer">
+    <div class="navbarContainer__logo">
+      <img src="./assets/icons/close.png" alt="" id="closeMenuButton">
+    </div>
+     
+    <nav class="navbarContainer__menu">
+      <div class="navbarContainer__menu__primaryLinks">
+        <a href="#">HOME</a>
+        <a href="./index.html">SHOP</a>
+        <a href="#">ABOUT</a>
+      </div>
+      <div class="navbarContainer__menu__secondaryLinks">
+        <a href="#">PANIER</a>
+        <a href="#">SE CONNECTER</a>
+      </div>
+    
+
+    </nav>
+  </div>
+
+  <div class="header__container">
+    <header class="header">
+      <img src="assets/images/logo.png" alt="" class="header__logo" /> 
+      <nav class="header__navbar">
+        <a href="#" class="header__navbar-link">HOME</a>
+        <a href="./index.html" class="header__navbar-link">SHOP</a>
+        <a href="#" class="header__navbar-link">ABOUT</a>
+      </nav>
+      <div class="header__icons">
+        <img src="./assets/icons/user.png" alt="">
+        <img src="./assets/icons/cart.png" alt="">
+      </div>
+      <img src="./assets/icons/menu.png" alt="" class="header__menuButton--mobile" id="openMenuButton">
+    </header>
+  </div>
+
+  <div class="background"></div>
+
+  <main class="content">
+    <header class="content__header">
+      <nav class="header__breadcrumbs">
+        <a href="#" class="header__breadcrumbs-link">HOME</a>
+        <img src="./assets/icons/arrow-forward.png" alt="" class="header__breadcrumbs-icon">
+        <a href="#" class="header__breadcrumbs-link">PRODUCTS LIST</a>
+      </nav>
+      <h2 class="header__title">PRODUCTS LIST</h2>
+    </header>
+
+  <div class="productList">
+    <ul id="productList__listContainer" class="productList__listContainer">
+    </ul>
+  </div>
+  </main>
+
+  <script type="text/javascript" src="./js/index.js"></script>
 </body>
 </html>
+
