@@ -1,24 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/product.css">
-    <link href="/website/css/uicons-solid-rounded.css"rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons/css/all/all.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/product.css">
+  <link href="/website/css/uicons-solid-rounded.css"rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons/css/all/all.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb" aria-label="Fil d’Ariane">
-      <ol>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">All products</a></li>
-        <li aria-current="page">Product name</li>
-      </ol>
+
+  <div class="navbarContainer--hidden" id="menuContainer">
+    <div class="navbarContainer__logo">
+      <img src="./assets/icons/close.png" alt="" id="closeMenuButton">
+    </div>
+     
+    <nav class="navbarContainer__menu">
+      <div class="navbarContainer__menu__primaryLinks">
+        <a href="#">HOME</a>
+        <a href="./index.html">SHOP</a>
+        <a href="#">ABOUT</a>
+      </div>
+      <div class="navbarContainer__menu__secondaryLinks">
+        <a href="#">PANIER</a>
+        <a href="#">SE CONNECTER</a>
+      </div>
+    
+
     </nav>
+  </div>
+
+  <div class="header__container">
+    <header class="header">
+      <img src="assets/images/logo.png" alt="" class="header__logo" /> 
+      <nav class="header__navbar">
+        <a href="#" class="header__navbar-link">HOME</a>
+        <a href="./index.html" class="header__navbar-link">SHOP</a>
+        <a href="#" class="header__navbar-link">ABOUT</a>
+      </nav>
+      <div class="header__icons">
+        <img src="./assets/icons/user.png" alt="">
+        <img src="./assets/icons/cart.png" alt="">
+      </div>
+      <img src="./assets/icons/menu.png" alt="" class="header__menuButton--mobile" id="openMenuButton">
+    </header>
+  </div>
+
+  <div class="content">
+    <header class="content__header">
+      <nav class="header__breadcrumbs">
+        <a href="#" class="header__breadcrumbs-link">HOME</a>
+        <img src="./assets/icons/arrow-forward.png" alt="" class="header__breadcrumbs-icon">
+        <a href="#" class="header__breadcrumbs-link">PRODUCTS LIST</a>
+        <img src="./assets/icons/arrow-forward.png" alt="" class="header__breadcrumbs-icon">
+        <a href="#" class="header__breadcrumbs-link">PRODUCT DETAILS</a>
+      </nav>
+      <h2 class="header__title">PRODUCT DETAILS</h2>
+    </header>
 
     <!-- Product card -->
     <div class="product-card">
@@ -52,35 +94,41 @@
           <p class="subtle" id="price">Price</p>
 
           <div class="field">
-            <label class="label">Color</label>
+            <label class="label">COLOR</label>
             <select>
-              <option>Black</option>
-              <option>White</option>
-              <option>Sandy Brown</option>
+              <option>BLACK</option>
+              <option>WHITE</option>
+              <option>SANDY BROWN</option>
             </select>
           </div>
 
           <div class="field">
-            <label class="label">Fabric</label>
+            <label class="label">FABRIC</label>
             <select>
-              <option>Cotton Silk</option>
-              <option>Cotton Pima</option>
-              <option>Cotton Sea Island</option>
+              <option>COTTON SILK</option>
+              <option>COTTON PIMA</option>
+              <option>COTTON SEA ISLAND</option>
             </select>
           </div>
 
           <div class="chips">
-            <div class="chip">XS</div>
-            <div class="chip">S</div>
-            <div class="chip">M</div>
-            <div class="chip">L</div>
-            <div class="chip">XL</div>
-            <div class="chip">2XL</div>
+            <label class="label">SIZE</label>
+            <div class="chips__container">
+              <div class="chip">XS</div>
+              <div class="chip">S</div>
+              <div class="chip">M</div>
+              <div class="chip">L</div>
+              <div class="chip">XL</div>
+              <div class="chip">2XL</div>
+            </div>
           </div>
 
           <div class="split">
-            <button class="btn-secondary">Short sleeves</button>
-            <button class="btn-secondary">Long sleeves</button>
+            <label class="label">MODEL</label>
+            <div class="split__container">
+              <button class="btn-secondary">SHORT SLEEVES</button>
+              <button class="btn-secondary">LONG SLEEVES</button>
+            </div>
           </div>
 
           <button class="add-to-cart">Add to cart</button>
