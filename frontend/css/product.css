@@ -156,10 +156,18 @@ body {
     border-radius: 8px;
     border: 3px solid #d1d5db;
     cursor: pointer;
+    user-select: none;
   }
+
+  .chip.selected {
+  background: black;
+  color: #fff;
+  border: solid black 3px;
+}
 
   .chip:hover{
     background: #ebeced;
+    color: black;
     border: solid black 3px;
   }
 
