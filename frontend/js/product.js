@@ -1,7 +1,6 @@
-// js/product.js
 document.addEventListener("DOMContentLoaded", () => {
   // ————————————————————————————————————————————————————————————————
-  // Pré-initialisation
+  // Pré-initialisation (localStorage)
   // ————————————————————————————————————————————————————————————————
   const STORAGE_KEY = "productState";
   const INIT_FLAG_KEY = "productState:initialised";
@@ -10,18 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(INIT_FLAG_KEY, "1");
   }
 
-  // Valeurs par défaut au premier affichage
+  // Valeurs par défaut
   const defaultState = {
-    sleeveType: "short",        // manches courtes
-    colorKey: "sandy brown",    // couleur sable
-    fabricKey: "cotton silk",   // tissu par défaut
-    selectedSize: null,         // aucune taille pré-sélectionnée
-    priceEUR: 1199              // Short + Cotton Silk
+    sleeveType: "short",
+    colorKey: "sandy brown",
+    fabricKey: "cotton silk",
+    selectedSize: null,
+    priceEUR: 1199
   };
 
-  // ————————————————————————————————————————————————————————————————
-  // Chargement et normalisation de l'état
-  // ————————————————————————————————————————————————————————————————
+  // Chargement état
   let stored = null;
   try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch {}
   let state = stored && typeof stored === "object"
@@ -29,29 +26,51 @@ document.addEventListener("DOMContentLoaded", () => {
     : { ...defaultState };
 
   // ————————————————————————————————————————————————————————————————
-  // Raccourcis DOM
+  // Raccourcis DOM (sélecteurs robustes)
   // ————————————————————————————————————————————————————————————————
-  const colorSelect  = document.querySelector("#color-select")  || document.querySelectorAll("select")[0];
-  const fabricSelect = document.querySelector("#fabric-select") || document.querySelectorAll("select")[1];
+  const colorSelect =
+    document.querySelector("#color-select")
+    || document.querySelector(".details .field:nth-of-type(1) select")
+    || document.querySelectorAll(".details select")[0];
+
+  // Attention : sélecteur pour le tissu, vérifier l'id dans le HTML (devrait être #fabric-select)
+  const fabricSelect =
+    document.querySelector("#fabric-select")
+    || document.querySelector(".details .field:nth-of-type(2) select")
+    || document.querySelectorAll(".details select")[1];
+
   const titleEl = document.querySelector("#product-title") || document.querySelector(".title");
   const descEl  = document.querySelector("#description")   || document.querySelector(".subtle");
   const priceEl = document.querySelector("#price");
+
   const slidesTrack   = document.querySelector(".slides");
   const dotsContainer = document.querySelector(".carousel-dots");
-  const shortBtn = document.querySelector("#btn-short");
-  const longBtn  = document.querySelector("#btn-long");
-  const sizeChipsWrap = document.getElementById("sizeChips");
-  const addToCartBtn = document.querySelector(".add-to-cart");
 
-  // Nettoyage des chips de tailles
-  if (sizeChipsWrap) {
-    sizeChipsWrap.querySelectorAll(".chip").forEach(ch => {
-      ch.classList.remove("selected");
-      ch.setAttribute("aria-pressed", "false");
-    });
+  let shortBtn = document.querySelector("#btn-short");
+  let longBtn  = document.querySelector("#btn-long");
+
+  if (!shortBtn || !longBtn) {
+    const splitContainer = document.querySelector(".split__container") || document.querySelector(".split");
+    if (splitContainer) {
+      const btns = Array.from(splitContainer.querySelectorAll("button.btn-secondary"));
+      shortBtn = btns.find(b => /short/i.test(b.textContent || ""));
+      longBtn  = btns.find(b => /long/i.test(b.textContent || ""));
+    }
   }
 
-  // Sauvegarde de l'état "métier"
+  const sizeChipsWrap =
+    document.getElementById("sizeChips")
+    || document.querySelector(".chips__container")
+    || (document.querySelector(".chips")?.querySelector(".chips__container") ? document.querySelector(".chips") : document.querySelector(".chips"));
+
+  const addToCartBtn = document.querySelector(".add-to-cart");
+
+  // ————————————————————————————————————————————————————————————————
+  // Utilitaires
+  // ————————————————————————————————————————————————————————————————
+  const capWords = s => String(s || "").toLowerCase().replace(/\b\w/g, m => m.toUpperCase());
+  const formatPrice = eur => Number(eur || 0).toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+
   function saveState() {
     const toStore = {
       sleeveType: state.sleeveType,
@@ -61,15 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
       priceEUR: state.priceEUR
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(toStore));
-    console.log("State saved:", toStore);
   }
 
-  // Utilitaires
-  const capWords = s => s.replace(/\b\w/g, m => m.toUpperCase());
-  const formatPrice = eur => eur.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
-
   // ————————————————————————————————————————————————————————————————
-  // Données produit (short / long)
+  // Données produit
   // ————————————————————————————————————————————————————————————————
   const catalog = {
     short: { variants: {
@@ -127,9 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ————————————————————————————————————————————————————————————————
-  // Règles de prix € 
+  // Pricing
   // ————————————————————————————————————————————————————————————————
-  const BASE_PRICE = 1199; // Short + Cotton Silk
+  const BASE_PRICE = 1199;
   const FABRIC_UPCHARGE_EUR = {
     "cotton silk": 0,
     "cotton pima": 1000,
@@ -144,30 +158,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ————————————————————————————————————————————————————————————————
-  // UI sleeves
-  // ————————————————————————————————————————————————————————————————
-  function setSleeveButtonsUI() {
-    if (!shortBtn || !longBtn) return;
-    const isShort = state.sleeveType === "short";
-    shortBtn.disabled = isShort;
-    longBtn.disabled = !isShort;
-    shortBtn.setAttribute("aria-pressed", String(isShort));
-    longBtn.setAttribute("aria-pressed", String(!isShort));
-    shortBtn.classList.toggle("is-active", isShort);
-    longBtn.classList.toggle("is-active", !isShort);
-  }
-
-  // ————————————————————————————————————————————————————————————————
   // Carousel
   // ————————————————————————————————————————————————————————————————
   let slideIndex = 0;
+
   function renderCarousel(images) {
     if (!slidesTrack || !dotsContainer) return;
-    slidesTrack.innerHTML = images.map(src => `<div class="slide"><img src="${src}" alt=""></div>`).join("");
-    dotsContainer.innerHTML = images.map((_, i) => `<button type="button" class="dot${i===slideIndex?" active":""}" aria-label="Slide ${i+1}"></button>`).join("");
+    slidesTrack.innerHTML = (images || []).map(src => `<div class="slide"><img src="${src}" alt=""></div>`).join("");
+    dotsContainer.innerHTML = (images || []).map((_, i) => `<button type="button" class="dot${i===slideIndex?" active":""}" aria-label="Slide ${i+1}"></button>`).join("");
     setupCarousel();
   }
+
   function setupCarousel() {
+    if (!slidesTrack || !dotsContainer) return;
     const dots = dotsContainer.querySelectorAll(".dot");
     function updateCarousel() {
       slidesTrack.style.transform = `translateX(${-slideIndex * 100}%)`;
@@ -181,92 +184,124 @@ document.addEventListener("DOMContentLoaded", () => {
   // ————————————————————————————————————————————————————————————————
   // Titre/description
   // ————————————————————————————————————————————————————————————————
-  function composeTitleAndDesc(variant) {
-    // Il n'y a que 2 sortes de titres (courts ou longs)
+  function composeTitleAndDesc() {
     const fixedTitle = state.sleeveType === "short"
       ? "THE CLASSIC - SHORT SLEEVES"
       : "THE CLASSIC - LONG SLEEVES";
-
-    // Description issue du tissu (sinon description de base c à dire Cotton Silk)
     const fabric = fabricData[state.fabricKey];
-    const description = fabric?.description ? fabric.description : variant.baseDescription;
-
+    const description = fabric?.description || "Premium cotton knit with a comfortable fit.";
     return { title: fixedTitle, description };
   }
 
   // ————————————————————————————————————————————————————————————————
-  // Hydratation
+  // Hydratation UI depuis l’état
   // ————————————————————————————————————————————————————————————————
   function hydrateFromState() {
     if (colorSelect)  colorSelect.value  = capWords(state.colorKey);
     if (fabricSelect) fabricSelect.value = capWords(state.fabricKey);
 
     const currentCatalog = catalog[state.sleeveType];
-    if (!currentCatalog) return;
-    const variant = currentCatalog.variants[state.colorKey];
-    if (!variant) return;
+    const variant = currentCatalog?.variants?.[state.colorKey];
+    if (variant?.images) renderCarousel(variant.images);
 
-    const { title, description } = composeTitleAndDesc(variant);
-    titleEl && (titleEl.textContent = title);
-    descEl  && (descEl.textContent  = description);
+    const { title, description } = composeTitleAndDesc();
+    if (titleEl) titleEl.textContent = title;
+    if (descEl)  descEl.textContent  = description;
 
-    // Prix dynamique
     state.priceEUR = computePriceEUR({ sleeveType: state.sleeveType, fabricKey: state.fabricKey });
     if (priceEl) priceEl.textContent = formatPrice(state.priceEUR);
 
-    renderCarousel(variant.images);
     setSleeveButtonsUI();
 
     if (sizeChipsWrap) {
-      sizeChipsWrap.querySelectorAll(".chip").forEach(ch => {
-        const isSel = !!state.selectedSize && ch.textContent.trim() === state.selectedSize;
+      const chips = sizeChipsWrap.matches(".chip") ? [sizeChipsWrap] : Array.from(sizeChipsWrap.querySelectorAll(".chip"));
+      chips.forEach(ch => {
+        const isSel = !!state.selectedSize && (ch.textContent || "").trim() === state.selectedSize;
         ch.classList.toggle("selected", isSel);
         ch.setAttribute("aria-pressed", String(isSel));
       });
     }
+
+    // => MAJ bouton add to cart selon la taille choisie
+    if (addToCartBtn) {
+      if (!state.selectedSize) {
+        addToCartBtn.setAttribute("disabled", "true");
+      } else {
+        addToCartBtn.removeAttribute("disabled");
+      }
+    }
+  }
+
+  function setSleeveButtonsUI() {
+    if (!shortBtn || !longBtn) return;
+    const isShort = state.sleeveType === "short";
+    shortBtn.disabled = isShort;
+    longBtn.disabled = !isShort;
+    shortBtn.setAttribute("aria-pressed", String(isShort));
+    longBtn.setAttribute("aria-pressed", String(!isShort));
+    shortBtn.classList.toggle("is-active", isShort);
+    longBtn.classList.toggle("is-active", !isShort);
   }
 
   // ————————————————————————————————————————————————————————————————
   // Listeners
   // ————————————————————————————————————————————————————————————————
   colorSelect?.addEventListener("change", (e) => {
-    state.colorKey = String(e.target.value).trim().toLowerCase();
+    const val = String(e.target.value || "").trim().toLowerCase();
+    state.colorKey = val;
     saveState();
     hydrateFromState();
   });
+
   fabricSelect?.addEventListener("change", (e) => {
-    state.fabricKey = String(e.target.value).trim().toLowerCase();
+    const val = String(e.target.value || "").trim().toLowerCase();
+    state.fabricKey = val;
     saveState();
     hydrateFromState();
   });
+
   shortBtn?.addEventListener("click", () => {
     if (state.sleeveType === "short") return;
     state.sleeveType = "short";
     saveState();
     hydrateFromState();
   });
+
   longBtn?.addEventListener("click", () => {
     if (state.sleeveType === "long") return;
     state.sleeveType = "long";
     saveState();
     hydrateFromState();
   });
+
+  // Délégation click sur chips tailles
   if (sizeChipsWrap) {
     sizeChipsWrap.addEventListener("click", (e) => {
       const btn = e.target.closest(".chip");
-      if (!btn) return;
-      state.selectedSize = btn.textContent.trim();
+      if (!btn || !sizeChipsWrap.contains(btn)) return;
+      state.selectedSize = (btn.textContent || "").trim();
       saveState();
-      sizeChipsWrap.querySelectorAll(".chip").forEach(ch => {
+
+      const chips = sizeChipsWrap.matches(".chip") ? [sizeChipsWrap] : Array.from(sizeChipsWrap.querySelectorAll(".chip"));
+      chips.forEach(ch => {
         const sel = ch === btn;
         ch.classList.toggle("selected", sel);
         ch.setAttribute("aria-pressed", String(sel));
       });
+
+      // Mise à jour du bouton add to cart après selection de taille
+      if (addToCartBtn) {
+        if (!state.selectedSize) {
+          addToCartBtn.setAttribute("disabled", "true");
+        } else {
+          addToCartBtn.removeAttribute("disabled");
+        }
+      }
     });
   }
 
   // ————————————————————————————————————————————————————————————————
-  // Init stricte
+  // Init stricte + 1ère hydratation
   // ————————————————————————————————————————————————————————————————
   state.sleeveType = "short";
   state.colorKey   = "sandy brown";
@@ -282,8 +317,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ————————————————————————————————————————————————————————————————
   addToCartBtn?.addEventListener("click", () => {
     if (!state.selectedSize) {
-      const addToCartBtn = document.getElementById("addToCartBtn");
-      addToCartBtn.setAttribute("disabled", true);
+      addToCartBtn.setAttribute("disabled", "true");
+      return;
     }
     const payload = {
       productId: "sku-123",
@@ -300,26 +335,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Add to cart payload:", payload);
     alert("Choix enregistré. Voir la console.");
   });
+
 });
-
-
-
-/* POUR LA NAVBAR APRES
-const openMenuButton = document.getElementById("openMenuButton");
-
-openMenuButton.addEventListener('click', function(e){
-  const navbarMenu = document.getElementById("menuContainer");
-  navbarMenu.setAttribute("class", "navbarContainer--showed")
-  const html = document.querySelector("html");
-  html.setAttribute("class", "yOverflowHidden");
-});
-
-const closeMenuButton = document.getElementById("closeMenuButton");
-
-closeMenuButton.addEventListener('click', function(e){
-  const navbarMenu = document.getElementById("menuContainer");
-  navbarMenu.setAttribute("class", "navbarContainer--hidden")
-  const html = document.querySelector("html");
-  html.removeAttribute("class", "yOverflowHidden");
-});
-*/

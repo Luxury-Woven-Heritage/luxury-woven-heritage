@@ -12,12 +12,12 @@ const catalogue = document.getElementById("productList__listContainer");
 tshirts.forEach(tshirt => {
   const card = document.createElement('li');
   card.setAttribute("class", "productList__listItem");
-  card.innerHTML = `
+  card.innerHTML = `<a href="./product.html">
     <img src=${tshirt.image} alt="" class="productList__listItem-image"/>
     <p class="productList__listItem-name">${tshirt.name}<p/>
     <p class="productList__listItem-color">${tshirt.color}<p/>
     <p class="productList__listItem-price">${tshirt.price}€<p/>
-  `;
+  <a/>`;
 
   catalogue.appendChild(card);
 });

@@ -222,6 +222,10 @@ body {
   .subtle {
     font-size: 0.95rem;
     margin-bottom: 16px;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.25em;
+    max-width: 90%;
   }
 
   #price {
@@ -229,7 +233,7 @@ body {
   }
 
   .field {
-    margin: 24px 0;
+    margin: 16px 0;
   }
   .label {
     display: block;
@@ -250,8 +254,12 @@ body {
     cursor: pointer;
   }
 
+  select {
+    text-transform: uppercase;
+  }
+
   .chips {
-    margin: 24px 0;
+    margin: 16px 0;
   }
 
   .chips__container {
@@ -287,7 +295,7 @@ body {
   }
 
   .split {
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .split__container {
@@ -322,6 +330,12 @@ body {
   .add-to-cart:hover {
     background: var(--muted);
     transition: 100ms;
+  }
+
+  .add-to-cart:disabled {
+    cursor: not-allowed;
+    background-color: var(--muted);
+    color: var(--background);
   }
 
 
