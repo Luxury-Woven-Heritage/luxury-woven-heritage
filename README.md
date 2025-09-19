@@ -1,5 +1,3 @@
-# README.md
-
 # Luxury Woven Heritage (LWH)
 
 ![image.png](frontend/assets/screenshots/image.png)
