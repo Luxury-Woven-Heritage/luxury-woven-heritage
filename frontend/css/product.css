@@ -268,9 +268,16 @@ body {
     justify-content: center;
     border: 2px solid var(--border);
     cursor: pointer;
+    user-select: none;
     font-size: 0.875em;
     transition: 100ms;
   }
+
+  .chip.selected {
+  background: black;
+  color: #fff;
+  border: solid black 3px;
+}
 
   .chip:hover{
     border: solid var(--primary) 2px;
