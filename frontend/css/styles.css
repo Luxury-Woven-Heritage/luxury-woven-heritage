@@ -194,6 +194,10 @@ body {
   font-size: 0.875em;
 }
 
+.productList__listItem > a {
+  text-decoration: none;
+}
+
 
 .productList__listItem-image {
   aspect-ratio: 1/1;
